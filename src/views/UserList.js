@@ -4,7 +4,6 @@ import { Avatar, Button, Icon, ListItem } from 'react-native-elements'
 import UsersContext from '../context/UsersContext'
 export default props => {
     const {state,dispatch} = useContext(UsersContext)
-    console.warn(state)
     function confirmUserDeletion(user) {
         Alert.alert('Excluir Usuario', 'Deseja Excluir o usuario?', [{
             text: 'SIM', onPress() { dispatch({ type: 'deleteUser', payload: user }) }
@@ -28,20 +27,6 @@ export default props => {
                 onPress={() => { confirmUserDeletion(user) }} />
         </ListItem>)
 
-        // (<ListItem
-        //     leftAvatar={{ source: { uri: user.avatarUrl } }}
-        //     key={user.id}
-        //     title={user.name}
-        //     subtitle={user.email}
-        //     rightElement={getActions(user)}
-        //     bottomDivider
-        //     onPress={() => {
-        //         props.navigation.navigate("UserForm", user)
-        //     }}
-        // />)
-        // <Avatar
-        //     source={{ uri: user.avatarUrl }}
-        // />
     }
     return (<View><FlatList
         keyExtractor={user => user.id.toString()}

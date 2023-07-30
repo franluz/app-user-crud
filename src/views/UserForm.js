@@ -1,30 +1,46 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Text, StyleSheet, View, TextInput, Button } from 'react-native'
+import UsersContext from '../context/UsersContext'
 
 export default ({ route, navigation }) => {
     const [user, setUser] = useState(route.params ? route.params : {})
+    const { dispatch } = useContext(UsersContext)
     return (<View style={style.form}>
-        <Text >Name</Text>
-        <TextInput onChange={name => { setUser({ ...user, name }) }}
+        <Text >Nome</Text>
+        <TextInput onChangeText={name => setUser({ ...user, name })}
             placeholder='Informe o Nome'
             value={user.name}
             style={style.inout}
         />
         <Text >E-mail</Text>
 
-        <TextInput onChange={email => { setUser({ ...user, email }) }}
+        <TextInput onChangeText={email => setUser({ ...user, email })}
             placeholder='Informe o E-mail'
             value={user.email}
             style={style.inout}
         />
-        <Text >Url Avatar</Text>
+        <Text>URL do Avatar</Text>
+        <TextInput
+            style={style.inout}
+            onChangeText={avatarUrl => setUser({ ...user, avatarUrl })}
+            placeholder="Informe a URL do Avatar"
+            value={user.avatarUrl}
+        />
+        {/* <Text >Url Avatar</Text>
 
-        <TextInput onChange={avatarUrl => { setUser({ ...user, avatarUrl }) }}
+        <TextInput onChangeText={avatarUrl => setUser({...user, avatarUrl})}
             placeholder='Informe a url do Avatar'
             value={user.avatarUrl}
             style={style.inout}
-        />
-        <Button title='Salvar' onPress={()=>{ navigation.goBack()}}/>
+        /> */}
+        <Button title='Salvar'
+            onPress={() => {
+                dispatch({
+                    type: user.id ? 'updateUser' : 'createUser',
+                    payload: user
+                })
+                navigation.goBack()
+            }} />
     </View>)
 }
 const style = StyleSheet.create({
